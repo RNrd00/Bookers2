@@ -1,0 +1,61 @@
+<div class="container px-5 px-sm-0">
+ <div class="row">
+  <div class="col-md-3">
+   <h2 class="pt-3">User info</h2>
+   <% if @book.user.profile_image.attached? %>
+    <%= image_tag @book.user.get_profile_image(100,100) %>
+   <% else %>
+    <%= image_tag 'no_image', size: "100x100" %>
+   <% end %>
+   <table class="table">
+    <tbody>
+     <tr></tr>
+     <tr>
+      <th>name</th>
+      <th><%= @book.user.name %></th>
+     </tr>
+     <tr>
+      <th>introduction</th>
+      <th><%= @book.user.introduction %></th>
+     </tr>
+    </tbody>  
+   </table>
+   <div class="row pt-4">
+    <%= link_to edit_user_path(@book.user.id), class: 'btn btn-outline-secondary btn-block edit_user_9', method: :get do %>
+    <i class="fas fa-user-cog"></i>
+    <%end%>
+    </div>
+    <h2 class="mt-3">New book</h2>
+     <%= form_with model: @books do |f| %>
+      <p>Title</p>
+      <%= f.text_field :title, class:'form-group form-control book_title' %>
+      <p>Opinion</p>
+      <%= f.text_area :body, class:'form-group form-control book_body' %>
+    <%= f.submit 'Create Book', class:'btn btn-success' %>
+  <% end %>
+  </div>
+ <div class="col-md-8 offset-md-1">
+  <h2 class="pt-3">Book detail</h2>
+   <table class="table">
+    <tbody>
+	 <tr>
+	  <td>
+	  <% if @book.user.profile_image.attached? %>
+	     <%= link_to image_tag(@book.user.get_profile_image(100,100)), user_path(@book.user.id), method: :get %><br>
+      <% else %>
+       <%= link_to image_tag('no_image', size: "100x100"), user_path(@book.user.id), method: :get %><br>
+      <% end %>
+      <%= link_to @book.user.name,user_path(@book.user), method: :get %>
+	  </td>
+	   <td><%= link_to @book.title,book_path, method: :get %></td>
+	   <td><%= @book.body %></td>
+	   <% if @book.user == current_user %>
+	    <td><%= link_to "Edit", edit_book_path(@book), method: :get, class:"btn btn-sm btn-success edit_book_54" %></td>
+     <td><%= link_to "Destroy", book_path(@book), method: :delete, data:{confirm:"本当に消しますか？"}, class:"btn btn-sm btn-danger destroy_book_54" %></td>
+    <% end %>
+	  </tr>
+    </tbody>
+   </table>
+ </div>
+ </div>
+</div>
